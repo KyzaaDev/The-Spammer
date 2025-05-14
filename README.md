@@ -7,7 +7,7 @@
 **The-Spammer** adalah tool sederhana yang digunakan untuk melakukan spamming ke API Telegram. Endpoint API biasanya didapat dari hasil reverse engineering terhadap malware atau trojan yang terhubung ke Telegram sebagai *Command & Control*
 
 
-![No Image Found!](https://i.imgur.com/cpzIBOs_d.png?maxwidth=520&shape=thumb&fidelity=high)
+![No Image Found!](https://i.imgur.com/cpzIBOs.png?maxwidth=520&shape=thumb&fidelity=high)
 
 **⚠️ Gunakan hanya untuk tujuan edukasi dan riset!**
 
