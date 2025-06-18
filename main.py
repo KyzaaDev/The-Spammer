@@ -4,25 +4,31 @@ import colorama
 from colorama import Fore, Style, Back, init
 import time
 import argparse
+from tqdm import tqdm
 
 colorama.init(autoreset=True)
 
 ## digunakan untuk menampilkan banner
-def banner():
-    print(Fore.MAGENTA + r"""
-  _____ _          ___                                
- |_   _| |_  ___  / __|_ __  __ _ _ __  _ __  ___ _ _ 
-   | | | ' \/ -_) \__ \ '_ \/ _` | '  \| '  \/ -_) '_|
-   |_| |_||_\___| |___/ .__/\__,_|_|_|_|_|_|_\___|_|  
-                      |_|                             
+asciiBanner =  print(Fore.MAGENTA + r""" 
+  ▄████  ██░ ██  ▒█████    ██████ ▄▄▄█████▓  ▄████  ██▀███   ▄▄▄       ███▄ ▄███▓
+ ██▒ ▀█▒▓██░ ██▒▒██▒  ██▒▒██    ▒ ▓  ██▒ ▓▒ ██▒ ▀█▒▓██ ▒ ██▒▒████▄    ▓██▒▀█▀ ██▒
+▒██░▄▄▄░▒██▀▀██░▒██░  ██▒░ ▓██▄   ▒ ▓██░ ▒░▒██░▄▄▄░▓██ ░▄█ ▒▒██  ▀█▄  ▓██    ▓██░
+░▓█  ██▓░▓█ ░██ ▒██   ██░  ▒   ██▒░ ▓██▓ ░ ░▓█  ██▓▒██▀▀█▄  ░██▄▄▄▄██ ▒██    ▒██ 
+░▒▓███▀▒░▓█▒░██▓░ ████▓▒░▒██████▒▒  ▒██▒ ░ ░▒▓███▀▒░██▓ ▒██▒ ▓█   ▓██▒▒██▒   ░██▒
+ ░▒   ▒  ▒ ░░▒░▒░ ▒░▒░▒░ ▒ ▒▓▒ ▒ ░  ▒ ░░    ░▒   ▒ ░ ▒▓ ░▒▓░ ▒▒   ▓▒█░░ ▒░   ░  ░
+  ░   ░  ▒ ░▒░ ░  ░ ▒ ▒░ ░ ░▒  ░ ░    ░      ░   ░   ░▒ ░ ▒░  ▒   ▒▒ ░░  ░      ░
+░ ░   ░  ░  ░░ ░░ ░ ░ ▒  ░  ░  ░    ░      ░ ░   ░   ░░   ░   ░   ▒   ░      ░   
+      ░  ░  ░  ░    ░ ░        ░                 ░    ░           ░  ░       ░                               
         """ + Fore.WHITE + "Made by: KyzaaDev\n")
 
+def banner():
+    return asciiBanner
 
 ## membuat parser untuk user
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(description=asciiBanner, formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument("--url", type=str, required=True, help="Enter your URL here")
 parser.add_argument("--loop", type=int, required=False, default=1, help="Enter the number of loops (default: 250)")
-parser.add_argument("--delay", type=int, required=False,default=2, help="Enter the delay for each message (default: 2 detik)")
+parser.add_argument("--delay", type=int, required=False,default=2, help="Enter the delay for each message (default: 2 second)")
 args = parser.parse_args()
 
 def validate_api():
@@ -81,32 +87,28 @@ def sending_messsage(pesan):
     try:
         response = requests.post(url)
     except requests.exceptions.RequestException as e:
-        print(f"[!] Failed to sent messages: {e}")
+        tqdm.write(f"[!] Failed to sent messages: {e}")
         return
-   
-    print(response.json())
+
+    tqdm.write(str(response.json()))
 
     if response.status_code == 200:
-        print(Fore.GREEN + f"[✓] Successfully sent the message!!. Status code: {response.status_code}\n")
+        tqdm.write(Fore.GREEN + f"[✓] Successfully sent the message!!. Status code: {response.status_code}\n")
     else:
-        print(Fore.RED + f"[✗] Failed to sent messages!!. Status code: {response.status_code}\n")
+        tqdm.write(Fore.RED + f"[✗] Failed to sent messages!!. Status code: {response.status_code}\n")
 
 ## function yang melakukan looping spamming
 def send_mess(jumReq=250):
-    try:
-        for i in range(jumReq):
+        for i in tqdm(range(jumReq), desc="sending message", colour="magenta"):
             for message in messages:
-                sendingMesssage(message)
-                time.sleep(dely)
+                sending_messsage(message)
+            time.sleep(dely)
+                
 
-        print(Fore.MAGENTA + "\n[✔ ] Successfully sent all messages")
-        print(Fore.CYAN + "Thanks for using this tool!!")
-    except KeyboardInterrupt:
-        print(Fore.RED + "\nProgram stoped by user")                                                                                                           
+        tqdm.write(Fore.MAGENTA + "\n[✔ ] Successfully sent all messages")
+        tqdm.write(Fore.CYAN + "Thanks for using this tool!!")
 
-#send_mess(message_amount)
-
-if __name__ == "__main__":
+def main():
     banner()
     validate_api()
     loop_amount()
@@ -114,3 +116,10 @@ if __name__ == "__main__":
     validate_input()
     get_user_messages()
     send_mess(message_amount)
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print(Fore.RED + "\nProgram stoped by user")
