@@ -34,7 +34,7 @@
 Endpoint Telegram API yang akan menjadi target main
 - Wajib diisi: --url <API_URL>
 - Example: 
-<pre lang="markdown">python3 main.py --url https://api.telegram.org/bot(token)/sendMessage?chat_id=(id)&text=</pre>
+<pre lang="markdown">python3 main.py --url "https://api.telegram.org/bot(token)/sendMessage?chat_id=(id)&text=</pre>"
 
 **⚠️ Endpoint hanya contoh!, masukkan endpoint secara lengkap.**
 
