@@ -1,5 +1,4 @@
 requests
 colorama
-os
-time
 argparse
+tqdm
