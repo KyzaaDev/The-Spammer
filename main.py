@@ -21,6 +21,8 @@ asciiBanner =  print(Fore.MAGENTA + r"""
       ░  ░  ░  ░    ░ ░        ░                 ░    ░           ░  ░       ░                               
         """ + Fore.WHITE + "Made by: KyzaaDev\n")
 
+def banner():
+    return asciiBanner
 
 ## membuat parser untuk user
 parser = argparse.ArgumentParser(description=asciiBanner, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -90,6 +92,7 @@ def sending_messsage(pesan):
 
     if response.status_code == 200:
         tqdm.write(Fore.GREEN + f"[✓] Successfully sent the message!!. Status code: {response.status_code}\n")
+<<<<<<< HEAD
         success += 1
     else:
         tqdm.write(Fore.RED + f"[✗] Failed to sent messages!!. Status code: {response.status_code}\n")
@@ -111,9 +114,28 @@ def send_mess(jumReq=250):
     tqdm.write(Fore.CYAN + "Thanks for using this tool!!")
 
 def main():
+=======
+    else:
+        tqdm.write(Fore.RED + f"[✗] Failed to sent messages!!. Status code: {response.status_code}\n")
+
+## function yang melakukan looping spamming
+def send_mess(jumReq=250):
+        for i in tqdm(range(jumReq), desc="sending message", colour="magenta"):
+            for message in messages:
+                sending_messsage(message)
+            time.sleep(dely)
+                
+
+        tqdm.write(Fore.MAGENTA + "\n[✔ ] Successfully sent all messages")
+        tqdm.write(Fore.CYAN + "Thanks for using this tool!!")
+
+def main():
+    banner()
+>>>>>>> 2696f28523d477d9c6416bbd37806c39ce6593a3
     validate_api()
     validate_input()
     get_user_messages()
+<<<<<<< HEAD
     
     while not messages:
         print("[!] Messages can not be blank")
@@ -132,6 +154,9 @@ def main():
             
 
     send_mess(args.loop)
+=======
+    send_mess(message_amount)
+>>>>>>> 2696f28523d477d9c6416bbd37806c39ce6593a3
 
 
 if __name__ == "__main__":
